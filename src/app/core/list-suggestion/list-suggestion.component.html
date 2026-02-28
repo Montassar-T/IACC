@@ -1,0 +1,45 @@
+<section class="suggestions-wrapper container py-4">
+  <h2 class="page-title text-center mb-3">Liste des suggestions</h2>
+
+  <div class="search-row mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Recherche une suggestion"
+      [(ngModel)]="searchText"
+    />
+  </div>
+
+  <article class="suggestion-card" *ngFor="let suggestion of filteredSuggestions">
+    <h3 class="suggestion-title mb-1">{{ suggestion.title }}</h3>
+
+    <p class="suggestion-meta mb-3">
+      <span class="category">{{ suggestion.category }}</span>
+      <span class="mx-2">•</span>
+      <span>{{ suggestion.date | date: 'dd MMM yyyy' }}</span>
+    </p>
+
+    <p class="suggestion-description mb-3">
+      {{ suggestion.description }}
+    </p>
+
+    <span class="status-badge" [ngClass]="getStatusClass(suggestion.status)">
+      {{ getStatusLabel(suggestion.status) }}
+    </span>
+
+    <div *ngIf="suggestion.status !== 'refusee'" class="actions mt-3">
+      <button type="button" class="btn btn-primary btn-sm" (click)="likeSuggestion(suggestion)">
+        <i class="bi bi-hand-thumbs-up-fill me-1"></i>
+        Like {{ suggestion.nbLikes }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-sm"
+        (click)="toggleFavorite(suggestion)"
+      >
+        <i class="bi me-1" [ngClass]="isFavorite(suggestion) ? 'bi-heart-fill' : 'bi-heart'"></i>
+        {{ isFavorite(suggestion) ? 'Retirer des favoris' : 'Ajouter au favoris' }}
+      </button>
+    </div>
+  </article>
+</section>

@@ -1,0 +1,24 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  min-height: 64px;
+  background-color: #1f2937;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.navbar-brand {
+  letter-spacing: 0.2px;
+  color: #f9fafb;
+}
+
+.navbar .nav-link {
+  color: #d1d5db;
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+  color: #f9fafb;
+}
