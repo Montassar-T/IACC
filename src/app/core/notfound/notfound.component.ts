@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class NotfoundComponent {
   link =
-    'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdmszeGxlOWxkbDhlODNnY2trODhtNG9tZHM1Y2pwcWRocTR2OXk5eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qHXSYtyW0kANmLLzcG/giphy.gif';
+    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExczNzZmwxMHk4Zjg0dmllbXl5cmk5bWtwd25lOGhvYXh5ODBmZjVnYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lnaIzsFXSAss5osoy3/giphy.gif';
 }
