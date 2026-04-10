@@ -1,0 +1,33 @@
+<div class="container py-4" *ngIf="suggestion; else notFound">
+  <div class="card shadow-sm p-4">
+    <h2 class="mb-3">{{ suggestion.title }}</h2>
+
+    <p class="text-muted mb-2"><strong>Category:</strong> {{ suggestion.category }}</p>
+
+    <p class="text-muted mb-2">
+      <strong>Date:</strong> {{ suggestion.date | date: 'dd MMM yyyy' }}
+    </p>
+
+    <p class="mb-3">
+      {{ suggestion.description }}
+    </p>
+
+    <div class="mb-3">
+      <span class="badge bg-secondary me-2">
+        {{ suggestion.status }}
+      </span>
+
+      <span class="badge bg-primary"> ❤️ {{ suggestion.nbLikes }} likes </span>
+    </div>
+
+    <button class="btn btn-outline-secondary" (click)="goBack()">← Back to list</button>
+  </div>
+</div>
+
+<!-- If suggestion not found -->
+<ng-template #notFound>
+  <div class="container py-5 text-center">
+    <h3>Suggestion not found 😕</h3>
+    <button class="btn btn-primary mt-3" routerLink="/listSuggestion">Go back</button>
+  </div>
+</ng-template>

@@ -40,6 +40,15 @@
         <i class="bi me-1" [ngClass]="isFavorite(suggestion) ? 'bi-heart-fill' : 'bi-heart'"></i>
         {{ isFavorite(suggestion) ? 'Retirer des favoris' : 'Ajouter au favoris' }}
       </button>
+      <button type="button" class="btn btn-info btn-sm me-2" [routerLink]="[suggestion.id]">
+        Details
+      </button>
+    </div>
+
+    <div class="actions mt-3">
+      <button type="button" class="btn btn-info btn-sm me-2" [routerLink]="[suggestion.id]">
+        Details
+      </button>
     </div>
   </article>
 </section>
