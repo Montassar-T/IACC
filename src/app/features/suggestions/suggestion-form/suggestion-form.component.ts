@@ -1,12 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SuggestionService } from '../../../core/Services/suggestion.service';
 @Component({
   selector: 'app-suggestion-form',
   templateUrl: './suggestion-form.component.html',
   styleUrl: './suggestion-form.component.css',
 })
 export class SuggestionFormComponent implements OnInit {
+  private suggestionService = inject(SuggestionService);
+
   suggestionForm!: FormGroup;
 
   categories: string[] = [
@@ -56,7 +59,7 @@ export class SuggestionFormComponent implements OnInit {
 
       console.log(newSuggestion);
 
-      // TODO: envoyer au service
+      this.suggestionService.addSuggestion(newSuggestion);
 
       this.router.navigate(['/listSuggestion/suggestions']);
     }

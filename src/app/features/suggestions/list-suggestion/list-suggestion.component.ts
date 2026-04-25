@@ -1,70 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Suggestion } from '../../../models/suggestion';
+import { SuggestionService } from '../../../core/Services/suggestion.service';
 
 @Component({
   selector: 'app-list-suggestion',
   templateUrl: './list-suggestion.component.html',
   styleUrl: './list-suggestion.component.css',
 })
-export class ListSuggestionComponent {
+export class ListSuggestionComponent implements OnInit {
+  private suggestionService = inject(SuggestionService);
+
   favoriteSuggestionIds = new Set<number>();
 
-  suggestions: Suggestion[] = [
-    {
-      id: 1,
-      title: 'Organiser une journée team building',
-      description:
-        "Suggestion pour organiser une journée de team building pour renforcer les liens entre les membres de l'équipe.",
-      category: 'Événements',
-      date: new Date('2025-01-20'),
-      status: 'acceptee',
-      nbLikes: 10,
-    },
-    {
-      id: 2,
-      title: 'Améliorer le système de réservation',
-      description:
-        'Proposition pour améliorer la gestion des réservations en ligne avec un système de confirmation automatique.',
-      category: 'Technologie',
-      date: new Date('2025-01-15'),
-      status: 'refusee',
-      nbLikes: 0,
-    },
-    {
-      id: 3,
-      title: 'Créer un système de récompenses',
-      description:
-        "Mise en place d'un programme de récompenses pour motiver les employés et reconnaître leurs efforts.",
-      category: 'Ressources Humaines',
-      date: new Date('2025-01-25'),
-      status: 'refusee',
-      nbLikes: 0,
-    },
-    {
-      id: 4,
-      title: "Moderniser l'interface utilisateur",
-      description:
-        "Refonte complète de l'interface utilisateur pour une meilleure expérience utilisateur.",
-      category: 'Technologie',
-      date: new Date('2025-01-30'),
-      status: 'en_attente',
-      nbLikes: 0,
-    },
-  ];
+  suggestions: Suggestion[] = [];
 
   searchText = '';
 
+  ngOnInit(): void {
+    this.suggestions = this.suggestionService.getSuggestionsList();
+  }
+
+  // 🔍 SEARCH
   get filteredSuggestions(): Suggestion[] {
     const term = this.searchText.trim().toLowerCase();
 
-    if (!term) {
-      return this.suggestions;
-    }
+    if (!term) return this.suggestions;
 
-    return this.suggestions.filter((suggestion) =>
-      [suggestion.title, suggestion.description, suggestion.category].some((value) =>
-        value.toLowerCase().includes(term)
-      )
+    return this.suggestions.filter((s) =>
+      [s.title, s.description, s.category].some((value) => value.toLowerCase().includes(term))
     );
   }
 
@@ -91,9 +54,7 @@ export class ListSuggestionComponent {
   }
 
   likeSuggestion(suggestion: Suggestion): void {
-    if (suggestion.status === 'refusee') {
-      return;
-    }
+    if (suggestion.status === 'refusee') return;
 
     suggestion.nbLikes += 1;
   }
@@ -101,13 +62,18 @@ export class ListSuggestionComponent {
   toggleFavorite(suggestion: Suggestion): void {
     if (this.favoriteSuggestionIds.has(suggestion.id)) {
       this.favoriteSuggestionIds.delete(suggestion.id);
-      return;
+    } else {
+      this.favoriteSuggestionIds.add(suggestion.id);
     }
-
-    this.favoriteSuggestionIds.add(suggestion.id);
   }
 
   isFavorite(suggestion: Suggestion): boolean {
     return this.favoriteSuggestionIds.has(suggestion.id);
+  }
+
+  deleteSuggestion(id: number): void {
+    this.suggestionService.deleteSuggestion(id);
+
+    this.suggestions = this.suggestionService.getSuggestionsList();
   }
 }

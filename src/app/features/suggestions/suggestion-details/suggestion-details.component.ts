@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Suggestion } from '../../../models/suggestion';
+import { SuggestionService } from '../../../core/Services/suggestion.service';
 
 @Component({
   selector: 'app-suggestion-details',
@@ -10,63 +11,28 @@ import { Suggestion } from '../../../models/suggestion';
 export class SuggestionDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private suggestionService = inject(SuggestionService);
 
   id!: number;
-
-  suggestions: Suggestion[] = [
-    {
-      id: 1,
-      title: 'Organiser une journée team building',
-      description:
-        "Suggestion pour organiser une journée de team building pour renforcer les liens entre les membres de l'équipe.",
-      category: 'Événements',
-      date: new Date('2025-01-20'),
-      status: 'acceptee',
-      nbLikes: 10,
-    },
-    {
-      id: 2,
-      title: 'Améliorer le système de réservation',
-      description:
-        'Proposition pour améliorer la gestion des réservations en ligne avec un système de confirmation automatique.',
-      category: 'Technologie',
-      date: new Date('2025-01-15'),
-      status: 'refusee',
-      nbLikes: 0,
-    },
-    {
-      id: 3,
-      title: 'Créer un système de récompenses',
-      description:
-        "Mise en place d'un programme de récompenses pour motiver les employés et reconnaître leurs efforts.",
-      category: 'Ressources Humaines',
-      date: new Date('2025-01-25'),
-      status: 'refusee',
-      nbLikes: 0,
-    },
-    {
-      id: 4,
-      title: "Moderniser l'interface utilisateur",
-      description:
-        "Refonte complète de l'interface utilisateur pour une meilleure expérience utilisateur.",
-      category: 'Technologie',
-      date: new Date('2025-01-30'),
-      status: 'en_attente',
-      nbLikes: 0,
-    },
-  ];
-
   suggestion?: Suggestion;
 
   ngOnInit(): void {
-    // 1. get id from URL
     this.id = Number(this.route.snapshot.paramMap.get('id'));
 
-    // 2. find matching suggestion
-    this.suggestion = this.suggestions.find((s) => s.id === this.id);
+    this.suggestion = this.suggestionService.getSuggestionsList().find((s) => s.id === this.id);
   }
 
   goBack(): void {
-    this.router.navigate(['/listSuggestion/suggestions']);
+    this.router.navigate(['/suggestions']);
+  }
+
+  goToUpdate(): void {
+    this.router.navigate(['/suggestions/edit', this.id]);
+  }
+
+  delete(): void {
+    this.suggestionService.deleteSuggestion(this.id);
+
+    this.router.navigate(['/suggestions']);
   }
 }
