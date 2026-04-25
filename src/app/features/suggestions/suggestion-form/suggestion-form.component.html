@@ -1,0 +1,76 @@
+<div class="container mt-4">
+  <div class="card shadow-sm p-4 bg-light">
+    <form [formGroup]="suggestionForm" (ngSubmit)="onSubmit()">
+      <!-- TITLE -->
+      <div class="mb-3">
+        <label for="title" class="form-label">Titre* :</label>
+        <input id="title" type="text" class="form-control" formControlName="title" />
+
+        <div class="text-danger mt-1" *ngIf="suggestionForm.get('title')?.touched">
+          <small *ngIf="suggestionForm.get('title')?.errors?.['required']">
+            Le titre est obligatoire
+          </small>
+          <small *ngIf="suggestionForm.get('title')?.errors?.['minlength']">
+            Minimum 5 caractères
+          </small>
+          <small *ngIf="suggestionForm.get('title')?.errors?.['pattern']">
+            Doit commencer par une majuscule et contenir uniquement des lettres
+          </small>
+        </div>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="mb-3">
+        <label for="description" class="form-label">Description :</label>
+        <textarea id="description" class="form-control" formControlName="description"></textarea>
+
+        <div class="text-danger mt-1" *ngIf="suggestionForm.get('description')?.touched">
+          <small *ngIf="suggestionForm.get('description')?.errors?.['required']">
+            Description obligatoire
+          </small>
+          <small *ngIf="suggestionForm.get('description')?.errors?.['minlength']">
+            Minimum 30 caractères
+          </small>
+        </div>
+      </div>
+
+      <!-- CATEGORY -->
+      <div class="mb-3">
+        <label for="category" class="form-label">Catégorie* :</label>
+        <select id="category" class="form-select" formControlName="category">
+          <option value="">-- Sélectionnez une catégorie --</option>
+          <option *ngFor="let cat of categories" [value]="cat">
+            {{ cat }}
+          </option>
+        </select>
+
+        <div
+          class="text-danger mt-1"
+          *ngIf="
+            suggestionForm.get('category')?.touched &&
+            suggestionForm.get('category')?.errors?.['required']
+          "
+        >
+          <small>La catégorie est obligatoire</small>
+        </div>
+      </div>
+
+      <!-- DATE -->
+      <div class="mb-3">
+        <label for="date" class="form-label">Date :</label>
+        <input id="date" type="text" class="form-control" formControlName="date" readonly />
+      </div>
+
+      <!-- STATUS -->
+      <div class="mb-3">
+        <label for="status" class="form-label">Status :</label>
+        <input id="status" type="text" class="form-control" formControlName="status" readonly />
+      </div>
+
+      <!-- SUBMIT -->
+      <button type="submit" class="btn btn-primary" [disabled]="suggestionForm.invalid">
+        Soumettre
+      </button>
+    </form>
+  </div>
+</div>

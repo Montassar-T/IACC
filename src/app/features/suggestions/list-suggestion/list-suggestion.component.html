@@ -1,13 +1,16 @@
 <section class="suggestions-wrapper container py-4">
   <h2 class="page-title text-center mb-3">Liste des suggestions</h2>
 
-  <div class="search-row mb-3">
+  <div class="search-row mb-3 d-flex gap-4">
     <input
       type="text"
       class="form-control"
       placeholder="Recherche une suggestion"
       [(ngModel)]="searchText"
     />
+    <button routerLink="/listSuggestion/suggestions/new" class="btn btn-primary">
+      Ajouter suggestion
+    </button>
   </div>
 
   <article class="suggestion-card" *ngFor="let suggestion of filteredSuggestions">
